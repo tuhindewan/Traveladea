@@ -1,0 +1,10 @@
+{
+  "version": "0.2.1",
+  "tasks": [
+    {
+      "taskName": "task-animate.min",
+      "appliesTo": "css/animate.min.css",
+      "type": "launch"
+    }
+  ]
+}
