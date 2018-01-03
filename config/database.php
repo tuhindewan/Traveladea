@@ -37,11 +37,11 @@ return [
             'driver'   => 'mongodb',
             'host'     => env('DB_HOST', '127.0.0.1'),
             'port'     => env('DB_PORT', 27017),
-            'database' => env('DB_DATABASE','techtravels'),
+            'database' => env('DB_DATABASE','travelers'),
             'username' => env('DB_USERNAME','admin'),
             'password' => env('DB_PASSWORD','admin'),
             'options'  => [
-                'database' => 'techtravels' // sets the authentication database required by mongo 3
+                'database' => 'travelers' // sets the authentication database required by mongo 3
             ]
         ],
 

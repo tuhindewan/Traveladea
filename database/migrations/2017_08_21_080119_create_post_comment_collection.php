@@ -16,9 +16,10 @@ class CreatePostCommentCollection extends Migration
         Schema::create('post_comment', function (Blueprint $collection) {
             $collection->increments('id');
             $collection->integer('fk_post_id')->unsigned();
-            $collection->tinyInteger('type'); // 0 for user,1 for admin
-            $collection->tinyInteger('comment_type'); // 0 for user,1 for admin
+            $collection->integer('fk_user_id')->unsigned();
+            $collection->tinyInteger('comment_by'); // 0 for user,1 for admin
             $collection->text('comment');
+            $collection->integer('sub_comment');//count sub comment
             $collection->timestamps();
         });
     }

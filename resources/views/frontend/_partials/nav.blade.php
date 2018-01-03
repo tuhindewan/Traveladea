@@ -1,6 +1,6 @@
-<style>
-	ul.nav li.dropdown > ul.dropdown-menu { margin-top: 0;}
-</style>
+@push('css-style')
+	<link rel="stylesheet" href="{{asset('public/frontend/css/nav/nav.css')}}">
+@endpush
 <section class="navigation">
 	<!-- begin #header -->
 		<div id="header" class="header navbar navbar-default navbar-fixed-top">
@@ -18,12 +18,13 @@
 				<!-- end mobile sidebar expand / collapse button -->
 				
 				<!-- left -->
+				<div class="status"></div>
 				<ul class="nav navbar-nav navbar-left">
 					<li class="header_logo"><img src="{{asset('public/frontend/img/logo.png')}}" alt=""></li>
-					<li><a href="#">Home</a></li>
-		            <li class="active"><a href="">Profile</a></li>
-		            <li><a href="">Connection</a></li>
-		            <li><a href="#">Map</a></li>
+					<li class=" {{ Request::is('/')?"active":"" }} "><a href="{{URL::to('/')}}">Home</a></li>
+		            <li class=" {{ Request::is('profile')?"active":"" }} "><a href="{{URL::to('/profile')}}">Profile</a></li>
+		            <li class=" {{ Request::is('connection')?"active":"" }} "><a href="{{URL::to('/connection')}}">Connection</a></li>
+		            <li class=""><a href="#">Map</a></li>
 					
 				</ul>
 				<!-- left end -->
@@ -34,7 +35,7 @@
 						<form class="navbar-form full-width">
 							<div class="form-group">
 								<input type="text" class="form-control" placeholder="Enter keyword" />
-								<button type="submit" class="btn btn-search"><i class="fa fa-search"></i></button>
+								<button type="submit" class="btn btn-search "><i class="fa fa-search navbar-search"></i></button>
 							</div>
 						</form>
 					</li>
@@ -99,8 +100,8 @@
 					</li>
 					<li class="dropdown navbar-user">
 						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
-							<img src="" alt="" /> 
-							<span class="hidden-xs">Adam Schwartz</span> <b class="caret"></b>
+							<img src='public/frontend/img/user.jpg' alt="{{ Auth::user()->username }}" />
+							<span class="hidden-xs">{{Auth::user()->username}}</span> <b class="caret"></b>
 						</a>
 						<ul class="dropdown-menu animated fadeInLeft">
 							<li class="arrow"></li>
@@ -109,13 +110,51 @@
 							<li><a href="javascript:;">Calendar</a></li>
 							<li><a href="javascript:;">Setting</a></li>
 							<li class="divider"></li>
-							<li><a href="javascript:;">Log Out</a></li>
+							<li><a href="{{URL::to('admin/logout')}}">Log Out</a></li>
 						</ul>
 					</li>
 				</ul>
 				<!-- end header navigation right -->
 			</div>
 			<!-- end container-fluid -->
+
+
+			<!-- sroll-show navbar -->
+				<nav class="navbar navbar-default navbar-xs fadeout_navbar" role="navigation" style="margin-bottom: 0px; display: none;">
+				  <!-- Brand and toggle get grouped for better mobile display -->
+				  <div class="navbar-header">
+				    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+				      <span class="sr-only">Toggle navigation</span>
+				      <span class="icon-bar"></span>
+				      <span class="icon-bar"></span>
+				      <span class="icon-bar"></span>
+				    </button>
+				  </div>
+
+				  <!-- Collect the nav links, forms, and other content for toggling -->
+				  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" style="margin-top: 10px;">
+				    <ul class="nav navbar-nav">
+				      <li class="active"><a href="#map-timeline"><i class="fa fa-fw fa-bars"></i> Timeline</a></li>
+				      <li><a href="about.html"><i class="fa fa-fw fa-user"></i> About</a></li>
+				      <li><a href="friends.html"><i class="fa fa-fw fa-users"></i> Friends</a></li>
+				      <li><a href="photos1.html"><i class="fa fa-fw fa-image"></i> Photos</a></li>
+				      <li class="dropdown">
+				        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b class="caret"></b></a>
+				        <ul class="dropdown-menu">
+				          <li><a href="#">Action</a></li>
+				          <li><a href="#">Another action</a></li>
+				          <li><a href="#">Something else here</a></li>
+				          <li class="divider"></li>
+				          <li><a href="#">Separated link</a></li>
+				          <li class="divider"></li>
+				          <li><a href="#">One more separated link</a></li>
+				        </ul>
+				      </li>
+				    </ul>
+				  </div><!-- /.navbar-collapse -->
+				</nav>
+				<!-- end scroll-show navbar -->
 		</div>
 		<!-- end #header -->
+
 </section>

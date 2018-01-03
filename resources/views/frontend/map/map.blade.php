@@ -16,7 +16,7 @@
       function initMap() {
         var minZoomLevel = 2;
         // Styles a map in night mode.
-        var map = new google.maps.Map(document.getElementById('map'), {
+        var map_home = new google.maps.Map(document.getElementById('map'), {
           center: {lat: 28.621, lng: 77.3812},
           zoom: minZoomLevel,
           disableDefaultUI: true,
@@ -273,10 +273,12 @@
           }
         ]
                 });
-         google.maps.event.addListener(map, 'zoom_changed', function () {
-             if (map.getZoom() < minZoomLevel) map.setZoom(minZoomLevel);
+         google.maps.event.addListener(map_home, 'zoom_changed', function () {
+             if (map_home.getZoom() < minZoomLevel) map_home.setZoom(minZoomLevel);
          });
       }
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMIHwTfrDF3QBOgim5Fox0DRACIMMZuAI&callback=initMap"
-    async defer></script>
+    <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCCALSYjrJyQ3R9ONak9nVMaAkOuRetWv4&v=3.exp&libraries=places&callback=initMap"></script> -->
+
+    <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMIHwTfrDF3QBOgim5Fox0DRACIMMZuAI&callback=initMap"
+    async defer></script> -->

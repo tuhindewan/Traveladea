@@ -19,24 +19,33 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     public function __construct(){
-    	$this->middleware(function ($request, $next) {
-            $id = Auth::user()->_id;
-            $getAdminProfile = AdminProfileImage::checkExtProfile($id);
-            $userImage = $getAdminProfile['image'];
-            $getRoleId = AdminWiseRole::getAdminWiseRole($id);
-            $getRole = Role::getRoleWiseRole($getRoleId['fk_role_id']);
-            $role_name = $getRole['role_name'];
+        $this->middleware(function ($request, $next) {
+            if(empty($request)){
 
-            $commonData = array(
-	            'image' => $userImage,
-                'role_name' => $role_name,
-                'web_settings' => WebSettings::first()
-	        ); 
+            }else{
+                if(($this->middleware('auth:admin'))){
+                    $id = Auth::user()['_id'];
+                    $getAdminProfile = AdminProfileImage::checkExtProfile($id);
+                    $userImage = $getAdminProfile['image'];
+                    $getRoleId = AdminWiseRole::getAdminWiseRole($id);
+                    $getRole = Role::getRoleWiseRole($getRoleId['fk_role_id']);
+                    $role_name = $getRole['role_name'];
 
-	        \Session::put('commonData',$commonData);
-            
+                    $commonData = array(
+                        'image' => $userImage,
+                        'role_name' => $role_name,
+                        'web_settings' => WebSettings::first()
+                    ); 
 
-            return $next($request);
+                    \Session::put('commonData',$commonData);    
+                }
+                
+                
+                
+                return $next($request);   
+            }
         });
+        
+    	
     }
 }

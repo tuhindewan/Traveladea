@@ -75,9 +75,10 @@ class WebSettingsController extends Controller
     {
 
         $getSettings = WebSettings::findOrFail($id);
+        //return $getSettings;
         $validator = Validator::make($request->all(), [
             'company_name' => 'required',
-            'address' => 'required',
+            //'address' => 'required',
             'email' => 'required'
         ]);
 
@@ -86,6 +87,7 @@ class WebSettingsController extends Controller
         }
 
         $input = $request->all();
+        
         /*logo image upload*/
         if($request->hasFile('logo')){
             $photo      = $request->file('logo');

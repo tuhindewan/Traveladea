@@ -50,8 +50,7 @@ class AdminProfileImage extends Eloquent
     }
 
     public static function admin(){
-        $data = AdminProfileImage::first();
-        return $data->belongsTo('App\Admin');
+        //return $this->belongsTo('App\Admin');
     }
 
 }

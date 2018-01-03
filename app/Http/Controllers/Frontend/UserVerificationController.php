@@ -52,7 +52,7 @@ class UserVerificationController extends Controller
             }
             
             if($bug == 0){
-                return redirect('/home-user')->with('success','New Users Sign Up Successfully.');
+                return redirect('/')->with('success','New Users Sign Up Successfully.');
             }else{
                 return redirect()->back()->with('error','Something Error Found !, Please try again.'.$bug1);
             }

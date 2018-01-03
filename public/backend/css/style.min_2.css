@@ -1475,7 +1475,6 @@ legend {
 }
 
 .nav-tabs {
-    background: #c1ccd1;
     -webkit-border-radius: 5px 5px 0 0;
     -moz-border-radius: 5px 5px 0 0;
     border-radius: 5px 5px 0 0
@@ -1542,9 +1541,9 @@ legend {
 }
 
 .tab-content {
-    padding: 15px;
+   /*  padding: 15px; */
     margin-bottom: 20px;
-    background: #fff;
+    /* background: #fff; */
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px

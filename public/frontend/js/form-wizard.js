@@ -51,6 +51,78 @@
 				}
 			});
 			// fields validation
+
+			// password fields validation
+			parent_fieldset.find('.password').each(function() {
+				var passwordLength = $(this).val().length;
+				
+				if( passwordLength < 5 ) {
+					//alert(passwordLength);
+					$(this).addClass('input-error');
+					next_step = false;
+				}
+				else {
+					$(this).removeClass('input-error');
+				}
+			});
+			// password fields validation
+
+			// password check fields validation
+			parent_fieldset.find('.confirm-password').each(function() {
+				var password = $('.password').val();
+				var confirmPassword = $(this).val();
+
+				
+				if( password != confirmPassword ) {
+					//alert(passwordLength);
+					$(this).addClass('input-error');
+					next_step = false;
+				}
+				else {
+					$(this).removeClass('input-error');
+				}
+			});
+			// password check fields validation
+
+			// phone number fields validation
+			parent_fieldset.find('.phone-number').each(function() {
+				var phoneno = '/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/';
+				var number = $(this).val();
+				if (isNaN(number)) 
+				{
+				    $(this).addClass('input-error');
+					next_step = false;
+				}
+
+				if(number.length < 9 ) {
+					
+					$(this).addClass('input-error');
+					next_step = false;
+				}
+				else {
+					$(this).removeClass('input-error');
+				}
+			});
+			// phone number fields validation
+
+			// city fields validation
+			
+			parent_fieldset.find('.city').each(function() {
+				//alert("lk");
+				var city = $(this).val();
+				
+				if (city == "") 
+				{
+				    $(this).addClass('input-error');
+					next_step = false;
+				}
+				else {
+					
+					$(this).removeClass('input-error');
+				}
+			});
+
+			// city fields validation
 			
 			if( next_step ) {
 				parent_fieldset.fadeOut(400, function() {
@@ -93,6 +165,7 @@
 				if( $(this).val() == "" ) {
 					e.preventDefault();
 					$(this).addClass('input-error');
+					//alert('error');
 				}
 				else {
 					$(this).removeClass('input-error');

@@ -28,10 +28,11 @@ class HomeController extends Controller
     public function index()
     {
         $id = Auth::user()->_id;
+        
         if(Auth::user()->verifiedstatus == 0){
             return redirect("users/account-verification/$id");
         }else{
-            return redirect('home-user');
+            return redirect('/');
         }
         
     }

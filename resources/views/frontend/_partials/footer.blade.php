@@ -1,41 +1,48 @@
 
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="{{asset('public/frontend/js/bootstrap.min.js')}}"></script>
+<script src="{{asset('public/frontend/js/bootstrap-select.min_2.js')}}"></script>
+<!-- common js -->
+
+@stack('js')
 <script src="{{asset('public/js/chosen.jquery.min.js')}}"></script>
 <script src="{{asset('public/js/chosen.proto.min.js')}}"></script>
-<script src="{{asset('public/frontend/js/form-wizard.js')}}"></script>
-<!-- home carouse -->
-<!-- Javascript -->
-<script src="{{asset('public/frontend/js/js-intro2.js')}}"></script>
+  <script>
+    jQuery(document).ready(function(){
+      jQuery(".chosen").chosen();
+    });
+  </script>
+<!-- has tag script -->
+<script src="{{asset('public/js/jquery.hashtags.js')}}" type="text/javascript"></script>
+<script src="{{asset('public/js/autosize.min.js')}}" type="text/javascript"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("textarea").hashtags();
+  });
+</script>
 
-<!-- Preload images -->
-<script src="{{asset('public/frontend/js/jquery.preload.js')}}"></script>	
 
-<!-- Easing -->	
-<script src="{{asset('public/frontend/js/jquery.easing.js')}}"></script>	
 
-<!-- Nicescroll  -->	
-<script src="{{asset('public/frontend/js/jquery.nicescroll.min.js')}}"></script>	
+<!-- <script type='text/javascript' src="{{asset('public/frontend/js/jquery.customSelect.js')}}"></script>
 
-<!-- Picker UI-->		
-<script src="{{asset('public/frontend/js/jquery-ui.js')}}"></script>		
-
-<!-- Custom Select -->
-<script type='text/javascript' src="{{asset('public/frontend/js/jquery.customSelect.js')}}"></script>
-
-<!-- Functions -->
 <script src="{{asset('public/frontend/js/functions.js')}}"></script>
 
-<!-- CarouFredSel -->
+
 <script src="{{asset('public/frontend/js/jquery.carouFredSel-6.2.1-packed.js')}}"></script>
 <script src="{{asset('public/frontend/js/helper-plugins/jquery.touchSwipe.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('public/frontend/js/helper-plugins/jquery.mousewheel.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('public/frontend/js/helper-plugins/jquery.transit.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('public/frontend/js/helper-plugins/jquery.ba-throttle-debounce.min.js')}}"></script>
-<!-- end -->
+
 <script type="text/javascript" src="{{asset('public/frontend/js/jqcarousel.js')}}"></script>
-<!-- slider js -->
+
+
+<script type="text/javascript" src="{{asset('public/js/dialog.min.js')}}"></script>
+
+<script src="{{asset('public/frontend/js/images-grid.js')}}"></script>
+
 <script src="{{asset('public/frontend/js/jssor.slider-26.1.5.min.js')}}" type="text/javascript"></script>
+
  <script type="text/javascript">
     jssor_1_slider_init = function() {
 
@@ -73,7 +80,7 @@
 
         var jssor_1_slider = new $JssorSlider$("jssor_1", jssor_1_options);
 
-        /*#region responsive code begin*/
+        
 
         var MAX_WIDTH = 980;
 
@@ -97,17 +104,13 @@
         $Jssor$.$AddEvent(window, "load", ScaleSlider);
         $Jssor$.$AddEvent(window, "resize", ScaleSlider);
         $Jssor$.$AddEvent(window, "orientationchange", ScaleSlider);
-        /*#endregion responsive code end*/
+        
     };
 </script>
 <script type="text/javascript">jssor_1_slider_init();</script>
-<!-- slider js end -->
-<script>
-	jQuery(document).ready(function(){
-		jQuery(".chosen").chosen();
-	});
-</script>
-<!-- dropdown menu -->
+
+
+
 <script src="{{asset('public/frontend/js/modernizr.custom.js')}}"></script>
 <script src="{{asset('public/frontend/js/jquery.dlmenu.js')}}"></script>
 <script>
@@ -117,7 +120,7 @@
 		});
 	});
 </script>
-<!-- scroll -->
+
 <script>
 	$(".scroll-bottom").click(function() {
 	    $('html,body').animate({
@@ -130,6 +133,20 @@
 	        'slow');
 	});
 </script>
+<script src="{{asset('public/js/jquery.hashtags.js')}}" type="text/javascript"></script>
+
+<script src="{{asset('public/js/autosize.min.js')}}" type="text/javascript"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("textarea").hashtags();
+  });
+</script>
+
+ 
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCCALSYjrJyQ3R9ONak9nVMaAkOuRetWv4&v=3.exp&libraries=places&callback=initMap"></script>
+ 
+
+<script src="{{asset('public/js/map.js')}}"></script> -->
 
 
 </body>

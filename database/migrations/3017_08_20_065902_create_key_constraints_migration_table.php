@@ -37,32 +37,39 @@ class CreateKeyConstraintsMigrationTable extends Migration
         });
 
         //user post section
-        Schema::create('user_post', function($collection)
+        Schema::create('post', function($collection)
         {
             $collection->foreign('fk_user_id', 'FK_user_id_from_user_collection')->references('id')->on('users');
             $collection->foreign('fk_place_id', 'FK_place_id_from_place_collection')->references('id')->on('place');
         });
 
-        Schema::create('user_post_image', function($collection)
-        {
-            $collection->foreign('fk_user_post_id', 'FK_user_post_id_from_user_post_collection')->references('id')->on('user_post');
-        });
-
-        Schema::create('user_post_video', function($collection)
-        {
-            $collection->foreign('fk_user_post_id', 'FK_user_post_id_from_user_post_collection')->references('id')->on('user_post');
-        });
-
-        //post comment section
-        Schema::create('post_comment', function($collection)
+        Schema::create('post_image', function($collection)
         {
             $collection->foreign('fk_post_id', 'FK_post_id_from_post_collection')->references('id')->on('post');
         });
 
-        //user post comment
-        Schema::create('user_post_comment', function($collection)
+        Schema::create('post_video', function($collection)
         {
-            $collection->foreign('fk_post_comment_id', 'FK_post_comment_id_from_post_comment_collection')->references('id')->on('post_comment');
+            $collection->foreign('fk_post_id', 'FK_post_id_from_post_collection')->references('id')->on('post');
+        });
+
+        //post comment section
+        // Schema::create('post_comment', function($collection)
+        // {
+        //     $collection->foreign('fk_post_id', 'FK_post_id_from_post_collection')->references('id')->on('post');
+        // });
+
+        //post like
+        Schema::create('post_like', function($collection)
+        {
+            $collection->foreign('fk_post_id', 'FK_post_like_id_from_post_collection')->references('id')->on('post');
+            $collection->foreign('fk_user_id', 'FK_user_id_from_user_collection')->references('id')->on('users');
+        });
+
+        //user post comment
+        Schema::create('post_comment', function($collection)
+        {
+            $collection->foreign('fk_post_id', 'FK_post_id_from_posts_collection')->references('id')->on('post');
             $collection->foreign('fk_user_id', 'FK_user_id_from_user_collection')->references('id')->on('users');
         });
 
@@ -73,15 +80,11 @@ class CreateKeyConstraintsMigrationTable extends Migration
             $collection->foreign('fk_admin_id', 'FK_admin_id_from_admin_collection')->references('id')->on('admin');
         });
 
-        //post sub comment section
+        
+        //user post sub comment
         Schema::create('post_sub_comment', function($collection)
         {
-            $collection->foreign('fk_post_comment_id', 'FK_post_comment_id_from_post_comment_collection')->references('id')->on('post_comment');
-        });
-        //user post sub comment
-        Schema::create('user_post_sub_comment', function($collection)
-        {
-            $collection->foreign('fk_post_sub_comment_id', 'FK_post_sub_comment_id_from_post_sub_comment_collection')->references('id')->on('post_sub_comment');
+            $collection->foreign('fk_post_sub_comment_id', 'FK_post_sub_comment_id_from_post_comment_collection')->references('id')->on('post_comment');
             $collection->foreign('fk_user_id', 'FK_user_id_from_user_collection')->references('id')->on('users');
         });
 
@@ -94,15 +97,15 @@ class CreateKeyConstraintsMigrationTable extends Migration
 
 
         //user report section
-        Schema::create('user_post_report', function($collection)
+        Schema::create('post_report', function($collection)
         {
             $collection->foreign('fk_user_id', 'FK_user_id_from_user_collection')->references('id')->on('users');
-            $collection->foreign('fk_post_id', 'FK_post_id_from_user_post_collection')->references('id')->on('user_post');
+            $collection->foreign('fk_post_id', 'FK_post_id_from_post_collection')->references('id')->on('post');
         });
 
         Schema::create('post_report_type', function($collection)
         {
-            $collection->foreign('fk_post_report_id', 'FK_post_report_id_from_user_post_report_collection')->references('id')->on('user_post_report');
+            $collection->foreign('fk_post_report_id', 'FK_post_report_id_from_post_report_collection')->references('id')->on('post_report');
         });
 
         //message conversation

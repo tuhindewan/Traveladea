@@ -16,8 +16,9 @@ class CreatePlaceCollection extends Migration
         Schema::create('place', function (Blueprint $collection) {
             $collection->increments('id');
             $collection->string('place_name',50);
+            $collection->string('lat',200);
+            $collection->string('lon',200);
             $collection->tinyInteger('status')->default('0');
-            $collection->text('description');
             $collection->timestamps();
         });
     }

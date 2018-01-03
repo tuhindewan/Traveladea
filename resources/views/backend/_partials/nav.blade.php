@@ -91,12 +91,21 @@
 				<a href="javascript:;">
 					<b class="caret pull-right"></b>
 					<i class="fa fa-file-text-o" aria-hidden="true"></i>
+					<span>Announcement</span>
+				</a>
+				<ul class="sub-menu">
+				    <li><a href="{{ URL::to('admin-announcement')}}">All</a></li>
+				    <li><a href="{{URL::to('admin-announcement/create')}}">Publish Announcement</a></li>
+				</ul>
+			</li>
+			<li class="has-sub">
+				<a href="javascript:;">
+					<b class="caret pull-right"></b>
+					<i class="fa fa-file-text-o" aria-hidden="true"></i>
 					<span>User Post</span>
 				</a>
 				<ul class="sub-menu">
-				    <li><a href="">All Post</a></li>
-				    <li><a href="">Publish Post</a></li>
-				    <li><a href="">Post Request</a></li>
+				    <li><a href="{{ URL::to('user-post-admin')}}">All Post</a></li>
 				</ul>
 			</li>
 			<li class="has-sub">
@@ -106,7 +115,7 @@
 					<span>Users</span>
 				</a>
 				<ul class="sub-menu">
-				    <li><a href="">All User</a></li>
+				    <li><a href="{{URL::to('/all_user')}}">All User</a></li>
 				    <li><a href="">User Permission</a></li>
 				</ul>
 			</li>

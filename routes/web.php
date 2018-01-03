@@ -15,6 +15,10 @@ Auth::routes();
 Route::get('/checkUser', 'HomeController@index');
 Route::get('/users/logout','Auth\LoginController@userLogout')->name('user.logout');
 
+Route::get('/test',function(){
+    return Auth::user()->test();
+});
+
 /*backend section*/
 
 
@@ -45,6 +49,23 @@ Route::get('/users/logout','Auth\LoginController@userLogout')->name('user.logout
     Route::post('check_access/{adminId}/{type}', 'Backend\CheckAccessController@checkAccess');
     /*check access controller end*/
 /*Administration section end*/
+
+
+/* user post list in admin panel*/
+
+    Route::resource('user-post-admin','Backend\UserPostController');
+    Route::post('user-post-access/{postId}/{type}','Backend\UserPostAccessController@UserPostAccess');
+    Route::get('post-status/{id}','Backend\UserPostController@status');
+    Route::get('post-delete/{id}','Backend\UserPostController@destroy');
+
+    /* user list */
+
+    Route::resource('all_user','Backend\UserListController');
+    Route::post('user_access/{userId}/{type}','Backend\UserAccessController@UserAccess');
+    Route::get('user-status/{id}','Backend\UserListController@status');
+    Route::get('user-delete/{id}','Backend\UserListController@destroy');
+/**/
+
 
 /*settings section start*/
     /*current city section start*/
@@ -86,6 +107,15 @@ Route::get('/users/logout','Auth\LoginController@userLogout')->name('user.logout
     /*contact secion end*/
 /*message section end*/
 
+/*admin announcement section start*/
+
+
+    Route::resource('admin-announcement','Backend\AnnouncementController');
+    Route::post('admin_announcement_access/{postId}/{type}','Backend\AnnouncementAccessController@AnnouncementAccess');
+    Route::get('announcement-status/{id}','Backend\AnnouncementController@status');
+    Route::get('admin-announcement-delete/{id}','Backend\AnnouncementController@destroy');
+/*admin announcement section end*/
+
 
 Route::prefix('admin')->group(function(){
 
@@ -98,6 +128,8 @@ Route::prefix('admin')->group(function(){
 	Route::get('/password/reset', 'Auth\AdminForgotPasswordController@showLinkRequestForm')->name('admin.password.request');
 	Route::post('/password/reset', 'Auth\AdminResetPasswordController@reset');
 	Route::get('/password/reset/{token}', 'Auth\AdminResetPasswordController@showResetForm')->name('admin.password.reset');
+
+
 });
 
 
@@ -110,10 +142,10 @@ Route::get('/login-page', function () {
     return view('backend.login');
 });
 //welcome
-Route::get('/welcome', function () {
+// Route::get('/welcome', function () {
 
-    return view('backend.welcome');
-});
+//     return view('backend.welcome');
+// });
 
 
 
@@ -128,16 +160,63 @@ Route::get('/', function () {
     
     Route::resource('users', 'Frontend\UsersController');
     Route::get('users/account-verification/{id}', 'Frontend\UserVerificationController@view');
+    Route::post('users.check-code', 'Frontend\UserVerificationController@checkCode');
+
+
+
 Route::group(['middleware' =>'auth'], function(){
     
-    Route::post('users.check-code', 'Frontend\UserVerificationController@checkCode');
     Route::post('users/re-generate-code', 'Frontend\UsersController@reGenerateCode');
 
-    Route::get('/home-user', function () {
+    Route::get('/', 'Frontend\HomePageController@index');
 
-        return view('frontend.home-test');
-    });
+    Route::get('/check-place/{latitude}/{longitude}', 'Frontend\HomePageController@checkPlace');
+    Route::get('/place/{place_id}', 'Frontend\HomePageController@placeWisePostShow');
+
+    
+
+    /*user post start*/
+    Route::resource('user-post','Frontend\UserPostController');
+    Route::post('/post-like','Frontend\UserPostController@postLike');
+    //post comment section
+    Route::resource('post-comment','Frontend\PostCommentController');
+
+    //Route::post('/post-comment','Frontend\UserPostController@postComment');
+    Route::post('/post-comment-delete','Frontend\UserPostController@postCommentDelete');
+    Route::post('/post-comment-edit','Frontend\UserPostController@postCommentEdit');
+    Route::get('/all-comment/{id}','Frontend\UserPostController@allComment');
+
+    /*post subcomment section*/
+    Route::resource('post-sub-comment','Frontend\PostSubCommentController');
+    /*user post end*/
+
+    /* personal information */
 });
+
+Route::resource('/personal_information','Frontend\PersonalInformationController');
+
+
+/* User Profile Section*/
+
+Route::get('/profile','Frontend\UserProfileController@index');
+Route::get('user-about-section', 'Frontend\UserProfileController@about');
+                                                                                                         
+Route::get('/edit-profile','Frontend\UserProfileController@getUserProfileInfo');
+
+Route::get('/all_search_list_people','Frontend\AllSearchListController@AllSearchListPeople');
+Route::get('/addFriend/{id}','Frontend\AllSearchListController@sendRequest');
+
+/* User Relationship section */
+Route::post('send_request','Frontend\AllSearchListController@send_user_request');
+
+
+/* cover image controller*/
+
+Route::resource('coverimage','Frontend\CoverImageController');
+
+/* all friend requests */
+Route::get('/friend_request','Frontend\FriendRequestController@allRequests');
+Route::get('/accepterequest/{id}','Frontend\FriendRequestController@accepterequest');
 
 
 Route::get('/index', function () {
@@ -156,14 +235,7 @@ Route::get('/view_profile', function () {
     return view('frontend.user.view_profile');
 });
 
-Route::get('/profile', function () {
 
-    return view('frontend.user.index');
-});
-Route::get('/edit-profile', function () {
-
-    return view('frontend.user.edit_profile');
-});
 
 Route::get('/map', function () {
 
@@ -177,9 +249,99 @@ Route::get('/connection', function () {
 
 Route::get('/company', function () {
 
-    return view('frontend.company.index');
+    return view('frontend.company.company');
 });
 
+Route::get('/map', function () {
+
+    return view('frontend.map.single_map_select');
+});
+
+
+
+
+Route::get('/all_notifications', function () {
+
+    return view('frontend.profile_settings.notifications');
+});
+Route::get('/all_messages', function () {
+
+    return view('frontend.profile_settings.all_messages');
+});
+
+Route::get('/all_activity', function () {
+
+    return view('frontend.profile_settings.activities');
+});
+
+Route::get('/change_password', function () {
+
+    return view('frontend.profile_settings.change_password');
+});
+
+Route::get('/fav_agencies', function () {
+
+    return view('frontend.profile_settings.fav_agencies');
+});
+
+
+Route::get('/account_settings', function () {
+
+    return view('frontend.profile_settings.account_settings');
+});
+
+Route::get('/single_post', function () {
+
+    return view('frontend.profile_settings.single_post');
+});
+
+
+
+Route::get('/map', function () {
+
+    return view('frontend.map.index');
+});
+
+Route::get('/foot_prints', function () {
+
+    return view('frontend.map.foot_prints');
+});
+
+Route::get('/connection', function () {
+
+    return view('frontend.connection.index');
+});
+
+Route::get('/company', function () {
+
+    return view('frontend.company.company');
+});
+
+Route::get('/map', function () {
+
+    return view('frontend.map.single_map_select');
+});
+
+
+Route::get('/user-friends-section', function () {
+
+    return view('frontend.user.user_friends');
+});
+
+Route::get('/user-photos-section', function () {
+
+    return view('frontend.user.user_photos');
+});
+
+Route::get('/user-videos-section', function () {
+
+    return view('frontend.user.user_videos');
+});
+
+Route::get('/error404', function () {
+
+    return view('frontend.error404');
+});
 
 /*frontend section end*/
 

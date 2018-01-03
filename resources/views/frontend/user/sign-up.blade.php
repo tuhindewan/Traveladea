@@ -1,7 +1,15 @@
 @extends('frontend.layout.app')
+@push('css-style')
+	<link rel="stylesheet" href="{{asset('public/frontend/css/form-wizard-purple.css')}}">
+	<link rel="stylesheet" href="{{asset('public/frontend/css/switcher.css')}}">
+	
+	<link rel="stylesheet" href="{{asset('public/css/intlTelInput.css')}}">
+@endpush
 @section('content')
+	
 	<style>
 		.form-group {margin-bottom: 5px;}
+		.intl-tel-input {width: 100%;}
 		body{	
 			background: #7db9e8; /* Old browsers */
 			background: -moz-linear-gradient(top, #7db9e8 0%, #207cca 50%, #7db9e8 100%); /* FF3.6-15 */
@@ -14,6 +22,9 @@
 	</style>
     <!-- main content -->
     <section class="form-box">
+
+
+    	
         <div class="container">
             
             <div class="row">
@@ -67,14 +78,13 @@
 									
 							<div class="form-group">
 								<label class="radio-inline">
-								  <input type="radio" name="gender" value="mr"> Mr.
+								  <input type="radio" name="gender" value="Mr" checked="checked"> Mr.
 								</label>
                                 <label class="radio-inline">
-								  <input type="radio" name="gender" value="ms" checked="checked"> Ms./Mrs.
+								  <input type="radio" name="gender" value="Ms"> Ms./Mrs.
 								</label>
 								
                             </div>
-					  				
 					  			
 					  		<div class="row">
 					  			<div class="col-sm-12">
@@ -102,43 +112,12 @@
 					  		</div>
 					  		
 			  				<div class="form-group">
-							    <label for="currentCity">Current City: <span>*</span></label>
-							    <select name="fk_city_id" data-placeholder="Choose a Country..." class="chosen required" tabindex="1">
-									<option>Choose...</option>
-									<option>Barguna</option>
-									<option >Barisal</option>
-									<option>Bhola</option>
-									<option >Jhalokati</option>
-									<option >Patuakhali</option>
-									<option >Pirojpur</option>
-									<option >Bandarban</option>
-									<option >Brahmanbaria</option>
-									<option >Chandpur</option>
-									<option >Chittagong</option>
-									<option >Comilla</option>
-									<option >Cox's Bazar</option>
-									<option >Feni</option>
-									<option >Khagrachhari</option>
-									<option >Lakshmipur</option>
-									<option >Noakhali</option>
-									<option >Rangamati</option>
-									<option >Dhaka </option>
-									<option >Faridpur </option>
-									<option >Gazipur </option>
-									<option >Gopalganj</option>
-									<option >Kishoreganj</option>
-									<option >Madaripur</option>
-									<option >Manikganj</option>
-									<option >Munshiganj</option>
-									<option >Narsingdi </option>
-									<option >Rajbari</option>
-									<option >Shariatpur</option>
-									<option >Tangail </option>
-									<option >Bagerhat </option>
-									<option >Chuadanga</option>
-									<option >Jessore </option>
-									<option >Jhenaidah</option>
-									<option >Khulna</option>
+							    <label for="currentCity">Current City: <span class="city_label">*</span></label>
+							    <select name="fk_city_id" data-placeholder="Choose a Country..." class="chosen required city" tabindex="1">
+									<option value="">Choose City...</option>
+									@foreach($currentCity as $city)
+										<option value="{{$city->_id}}">{{$city->city_name}}</option>
+									@endforeach
 								</select>
 							</div>	
 					  			
@@ -153,9 +132,11 @@
 					  					</div>
 					  					<div class="col-sm-6">
 					  						<div class="form-group">
-											    <label for="PhoneNumber">Mobile Number: <span>*</span></label>
-											    <input type="phone" name="phone" class="form-control required" id="PhoneNumber" placeholder="Phone Number">
+											    <label for="PhoneNumber" class="col-sm-12">Mobile Number: <span>*</span></label>
+											    <input type="tel" name="phone" id="phone" placeholder="" class ="form-control phone-number" onKeyPress="edValueKeyPress()" required>
+											    
 											</div>
+											<input type="hidden" value="" class="country-code" name="country_code">
 					  					</div>
 					  				</div>
 					  			</div>
@@ -166,12 +147,12 @@
                                 <input type="text" name="username" placeholder="User Name" class="form-control required">
                             </div>
 							<div class="form-group">
-                			    <label>Password: <span>*</span></label>
-                                <input type="password" name="password" placeholder="User Password" class="form-control required">
+                			    <label>Password: <span>* (password must be 6 character)</span></label>
+                                <input minlength="6" type="password" name="password" placeholder="User Password" class="form-control required password">
                             </div>
 							<div class="form-group">
                 			    <label>Confirm Password: <span>*</span></label>
-                                <input type="password" name="password_confirmation" placeholder="Confirm Password" class="form-control required">
+                                <input type="password" name="password_confirmation" placeholder="Confirm Password" class="form-control required confirm-password">
                             </div>
                             <div class="form-wizard-buttons">
                                 <button type="button" class="btn btn-next">Next</button>
@@ -250,4 +231,58 @@
         </div>
     </section>
 	<!-- main content -->
+	 
+
+@push('js')
+	<!-- <script src="http://code.jquery.com/jquery-latest.min.js"></script> -->
+	<script src="{{asset('public/js/intlTelInput.js')}}"></script>
+	<script src="{{asset('public/js/utils.js')}}"></script>
+	<script>
+		$("#phone").intlTelInput({
+			
+	      // allowDropdown: false,
+	      autoHideDialCode: false,
+	      autoPlaceholder: "off",
+	      dropdownContainer: "body",
+	      // excludeCountries: ["us"],
+	      //formatOnDisplay: false,
+	      geoIpLookup: function(callback) {
+	        $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+	          var countryCode = (resp && resp.country) ? resp.country : "";
+	          callback(countryCode);
+	        });
+	      },
+	      // hiddenInput: "full_number",
+	      initialCountry: "auto",
+	      // nationalMode: false,
+	      // onlyCountries: ['us', 'gb', 'ch', 'ca', 'do'],
+	      placeholderNumberType: "MOBILE",
+	      //preferredCountries: ['cn', 'jp'],
+	       separateDialCode: true,
+	     // utilsScript: "/build/js/utils.js"
+	    });
+	</script>
+	<script>
+		$(document).ready(function(){
+			// $("#phone").onclick(function(){
+			// 	var code = $(".selected-dial-code").val();
+			// 	alert(code);
+			// });
+			//$(".selected-dial-code").setAttribute('name','country_code');
+			
+		});
+	</script>
+	<script>
+   		function edValueKeyPress()
+	    {
+	        var edValue = document.getElementsByClassName("selected-dial-code");
+	        countryCode = edValue[0].innerHTML;
+	        $('.country-code').val(countryCode);
+	    	//alert(countryCode);
+  
+	    }
+	</script>
+	<script src="{{asset('public/frontend/js/form-wizard.js')}}"></script>
+	
+@endpush
 @endsection

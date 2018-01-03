@@ -1,4 +1,8 @@
-@include('frontend._partials.header')
+@extends('frontend.layout.app')
+@push('css-style')
+<link rel="stylesheet" type="text/css" href="{{asset('public/frontend/css/dropdown_com.css')}}" />
+@endpush
+@section('content')
 <section class="user_verifi_page first">
 	<div class="user_verifi_content">
 		<img class="map-bg" src="{{asset('public/frontend/img/map-bg.png')}}" alt="">
@@ -7,8 +11,8 @@
 				<div class="col-md-12">
 					<div class="row">
 						<div class="col-md-3 pull-left home_top_search no_padding">
-							<input type="text" class="form-control home_search" name="" value="" placeholder="Search..."><!-- <i class="fa fa-search" aria-hidden="true"></i> -->
-							<div class="home_search_overlay"></div>
+							<input type="text" class="form-control home_search" name="" value="" placeholder="Search..." style="background: transparent;"><!-- <i class="fa fa-search" aria-hidden="true"></i> -->
+							<!-- <div class="home_search_overlay"></div> -->
 						</div>
 						<div class="col-md-6 pull-right">
 							<div class="home_profile">
@@ -96,32 +100,43 @@
 	</div>
 		
 </section>
-<script>
-	$(".sendCode").click(function(){
-		id = $(".id").val();
-		_token = $('input[name="_token"]').val();
-		userEmail = $('.userEmail').val();
-		$.ajax({
-			url: "{{URL::to('/')}}"+'/users/re-generate-code',
-          	type: "post",
-          	data: {_token : _token,
-          		id:id,
-          		email:userEmail
-          		},
-          	success:function(result)
-          	{
-            	console.log(result);
-            
-	          	if(result == 'success'){
-	                $("#message").html('<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><b>An Activation Code Send Your Email .This code active in 24 hours</b></div>');
-	            }
-	            else
-	            {
-	                $("#message").html('<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><b>'+result+'</b></div>');
-	            }
-	        }
-	        
-        });
-	});
-</script>
-@include('frontend._partials.footer')
+@push('js')
+	<script src="{{asset('public/frontend/js/modernizr.custom.js')}}"></script>
+	<script src="{{asset('public/frontend/js/jquery.dlmenu.js')}}"></script>
+	<script>
+		$(function() {
+			$( '#dl-menu' ).dlmenu({
+				animationClasses : { in : 'dl-animate-in-4', out : 'dl-animate-out-4' }
+			});
+		});
+	</script>
+	<script>
+		$(".sendCode").click(function(){
+			id = $(".id").val();
+			_token = $('input[name="_token"]').val();
+			userEmail = $('.userEmail').val();
+			$.ajax({
+				url: "{{URL::to('/')}}"+'/users/re-generate-code',
+	          	type: "post",
+	          	data: {_token : _token,
+	          		id:id,
+	          		email:userEmail
+	          		},
+	          	success:function(result)
+	          	{
+	            	console.log(result);
+	            
+		          	if(result == 'success'){
+		                $("#message").html('<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><b>An Activation Code Send Your Email .This code active in 24 hours</b></div>');
+		            }
+		            else
+		            {
+		                $("#message").html('<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><b>'+result+'</b></div>');
+		            }
+		        }
+		        
+	        });
+		});
+	</script>
+@endpush
+@endsection

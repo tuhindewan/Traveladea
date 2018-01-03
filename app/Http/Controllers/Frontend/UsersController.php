@@ -8,10 +8,12 @@ use App\User;
 use App\Models\UserProfileImage;
 use App\Models\UserVerifi;
 use App\Mail\UserVerifiMail;
+use App\Models\CurrentCity;
 use Auth;
 use Validator;
 use Response;
 use DB;
+use Hash;
 class UsersController extends Controller
 {
     /**
@@ -22,7 +24,16 @@ class UsersController extends Controller
     public function index()
     {
         
-        return "hi";
+       //$location = \Location::get();
+        $ip = '43.224.116.54';
+        //$ip= \Request::ip();
+        $data = \Location::get($ip);
+        //$position = \Location::get('192.168.0.105');
+        echo "<pre>";
+        print_r($data);exit;
+
+
+                                                   
         
     }
 
@@ -33,7 +44,8 @@ class UsersController extends Controller
      */
     public function create()
     {
-        return view('frontend.user.sign-up');
+        $currentCity = CurrentCity::where('status','1')->get();
+        return view('frontend.user.sign-up',compact('currentCity'));
     }
 
     /**
@@ -70,14 +82,13 @@ class UsersController extends Controller
         }
 
         $input['password'] = bcrypt($input['password']);
-        
         //DB::beginTransaction();
             
         try {
-            $userId = User::userSignUp($input);
-            UserProfileImage::userCreateImage($userId, $input);
-            UserVerifi::userVerification($userId, $code, $endTime);
-            \Mail::send(new UserVerifiMail());
+            $imageId = UserProfileImage::userCreateImage($input);
+            $userId = User::userSignUp($input,$imageId);
+            // UserVerifi::userVerification($userId, $code, $endTime);
+            // Mail::send(new UserVerifiMail());
             $bug = 0;
             //DB::commit();
         } catch (\Exception $e) {
@@ -125,7 +136,28 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $type = $request['type'];
+
+        if ($type == 0) {
+
+            $data = $request->all();
+            
+
+
+            $user = User::findOrFail($id);
+
+            if(!Hash::check($data['currentPass'],$user->password)){
+                return redirect()->back()->with('error','The specified password does not match the database password');
+            }elseif ($data['newPassword'] != $data['conPassword']) {
+                return redirect()->back()->with('error','Passwords Do Not Match');
+            }else{
+                $user->password = bcrypt($data['newPassword']);
+                $user->save();
+                return redirect()->back()->with('success','Your New Password is Now Set');
+            }
+
+        }
+
     }
 
     /**

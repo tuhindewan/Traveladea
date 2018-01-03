@@ -1,6 +1,6 @@
 @include('frontend._partials.header')
 	
-	@if(Session::has('success'))
+	{{-- @if(Session::has('success'))
 		<style type="text/css">
 			.alert-dismissable{margin-left: 17%; margin-top: 25px;}
 		</style>
@@ -16,7 +16,7 @@
 	       <b>{!! Session::get('error')!!}</b> 
 	       </div>
 		
-	@endif
+	@endif --}}
 	<section>
 		@yield('content')
 	</section>

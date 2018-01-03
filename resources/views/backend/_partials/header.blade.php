@@ -10,6 +10,8 @@
 			$image = "";
 			$role_name ="";
 			$company_name = "";
+			$company_logo = "";
+			$company_icon = "";
 		}
 
 	 ?>
@@ -21,11 +23,11 @@
 <!--<![endif]-->
 <head>
 	<meta charset="utf-8" />
-	<title>Tech Travles</title>
+	<title>{{$company_name}}</title>
 	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
 	<meta content="" name="description" />
 	<meta content="" name="author" />
-	
+	<link rel="icon" href='{{asset("images/settings/web_settings/$company_icon")}}'>
 	<!-- ================== BEGIN BASE CSS STYLE ================== -->
 	<link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
 	<link href="{{asset('public/backend/plugins/jquery-ui/themes/base/minified/jquery-ui.min_2.css')}}" rel="stylesheet" />
@@ -53,6 +55,7 @@
 
 	<!-- ================== Start PAGE Custom CSS STYLE ================== -->
 	<link href="{{asset('public/backend/css/custom.css')}}" rel="stylesheet" />
+	<link href="{{asset('public/css/public.css')}}" rel="stylesheet" />
 	<!-- ================== END PAGE Custom CSS STYLE ================== -->
 	
 	<!-- ================== BEGIN BASE JS ================== -->
